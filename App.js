@@ -1,41 +1,45 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React , {useState} from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient'
-import * as ImagePicker from 'expo-image-picker'
+import * as Location from 'expo-location'
 // import * as Font from 'expo-font'
 // import { useFonts, Lakki Reddy, Comic Nue } from @expo-google-fonts/inter
+// import { HOST_WITH_PORT } from './environment'
+import UnicornModel from './src/models/unicorn'
+import SightingModel from './src/models/sighting'
 import logo from './assets/logo.png'
 
 export default function App() {
-  const [selectedImage, setSelectedImage] = React.useState(null)
+  // const [location, setLocation] = useState(null)
+  const [unicorn,setUnicorn] = useState(null)
+  const [sighting, setSighting]= useState(null)
+
+  const findUnicorn = async () => {
+    const res = await UnicornModel.show()
+    console.log(res.unicorn)
+    setUnicorn(res.unicorn)
+  }
   
-  let openImagePickerAsync = async () =>{
-    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync()
-
-    if (permissionResult.granted === false) {
-      alert ("Permission to access pictures is required!")
-      return
-    }
-    let pickerResult = await ImagePicker.launchImageLibraryAsync()
-    
-    if (pickerResult.cancelled === true){
-      return
-    }
-    setSelectedImage({ localUri: pickerResult.uri })
+  const findAllSightings = async () =>{
+    const res = await SightingModel.all()
+    console.log(res.sightings)
+    setSighting(res.sightings)
   }
 
-  if (selectedImage !== null) {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={{ uri: selectedImage.localUri }}
-          style={styles.thumbnail}
-        />
-      </View>
-
-    )
+  const createSighting = async (unicorn) => {
+    const newSighting = {
+      unicornId: unicorn.id,
+      unicornImg: unicorn.image,
+      location: "Four blocks away!",
+      date: "12-11-2020"
+    }
+    console.log(newSighting)
+    await SightingModel.create(newSighting)
+    findAllSighting()
   }
+
+
 
   return (
     <View style={styles.container}>
@@ -52,9 +56,11 @@ export default function App() {
             style={styles.logo}
           />
         </TouchableOpacity>
-        <Text style={styles.instructions}>Long press the logo to look for unicorns!</Text>
+        <Text style={styles.instructions}>Short the logo for unicorns!</Text>
         <TouchableOpacity
-          onPress={ openImagePickerAsync}
+          // onPress={ findUnicorn }
+          // onPress={ findAllSightings }
+          onPress={ createSighting }
           style={styles.button}
         >
         {/* <Button title="help"/> */}
