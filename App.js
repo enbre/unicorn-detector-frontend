@@ -1,12 +1,66 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import {LinearGradient} from 'expo-linear-gradient'
+import * as ImagePicker from 'expo-image-picker'
+// import * as Font from 'expo-font'
+// import { useFonts, Lakki Reddy, Comic Nue } from @expo-google-fonts/inter
+import logo from './assets/logo.png'
 
 export default function App() {
+  const [selectedImage, setSelectedImage] = React.useState(null)
+  
+  let openImagePickerAsync = async () =>{
+    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync()
+
+    if (permissionResult.granted === false) {
+      alert ("Permission to access pictures is required!")
+      return
+    }
+    let pickerResult = await ImagePicker.launchImageLibraryAsync()
+    
+    if (pickerResult.cancelled === true){
+      return
+    }
+    setSelectedImage({ localUri: pickerResult.uri })
+  }
+
+  if (selectedImage !== null) {
+    return (
+      <View style={styles.container}>
+        <Image
+          source={{ uri: selectedImage.localUri }}
+          style={styles.thumbnail}
+        />
+      </View>
+
+    )
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
+        <Text style={styles.title}>
+          Unicorn Detector
+        </Text>
+        <TouchableOpacity
+          onPress={() => alert ('No unicorns yet!')}
+          >
+          <Image 
+            // source={{uri:'https://static.wikia.nocookie.net/mlp/images/d/d2/UUM2_ID_S9E26.png/revision/latest?cb=20191013154637' }}
+            source={logo} 
+            style={styles.logo}
+          />
+        </TouchableOpacity>
+        <Text style={styles.instructions}>Long press the logo to look for unicorns!</Text>
+        <TouchableOpacity
+          onPress={ openImagePickerAsync}
+          style={styles.button}
+        >
+        {/* <Button title="help"/> */}
+        <Text style={styles.buttonText}>Let's pick a photo!</Text>
+        </TouchableOpacity>
+        <StatusBar style="auto" />
     </View>
   );
 }
@@ -14,8 +68,49 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgb(229,184,244)',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logo: {
+    width: 275, 
+    height: 275,
+    marginBottom: 10
+  },
+  title: {
+    color: 'rgba(129, 90, 159, 1)',
+    fontSize: 35,
+    marginHorizontal: 15,
+    marginBottom: 75,
+    marginTop: -50
+  },
+  button:{
+    marginTop: 50,
+    backgroundColor: "white",
+    padding: 15,
+    borderRadius: 30,
+    borderColor: "rgba(129, 90, 159, 1)",
+  },
+  instructions: {
+    marginTop:50,
+    color: 'rgba(129, 90, 159, 1)',
+    fontSize: 18
+  },
+  buttonText: {
+    color: 'rgba(129, 90, 159, 1)',
+    fontSize: 18
+  },
+  backgroundGradient: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 800
+  },
+  thumbnail: {
+    width: 300,
+    height: 300,
+    resizeMode: "contain"
+  }
+
 });
