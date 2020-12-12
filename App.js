@@ -1,7 +1,6 @@
 // react imports
 import React , {useState, useEffect} from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
-import Geocoder from 'react-native-geocoder'
 //expo module imports
 import {LinearGradient} from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar';
@@ -20,6 +19,7 @@ export default function App() {
   // state:
   const [errorMsg, setErrorMsg] = useState(null)
   const [location, setLocation] = useState({})
+  const [zipcode, setZipcode] = useState(null)
   const [unicorn,setUnicorn] = useState(null)
   const [sighting, setSighting]= useState(null)
 
@@ -33,18 +33,17 @@ export default function App() {
       setErrorMsg("Permission not granted")
     }
     const userLocation = await Location.getCurrentPositionAsync()
-    console.log(userLocation)
-    setLocation(userLocation)
-  }
+    // console.log(userLocation.coords)
+    // console.log(userLocation.coords.latitude)
+    // console.log(userLocation.coords.longitude)
+    setLocation({latitude: userLocation.coords.latitude,longitude: userLocation.coords.longitude})
+    await console.log('location:',location)
 
-  // convert location coordinates to zipcode
-  const coordToZip = ()=>{
-    Geocoder.geocodePosition().then(res=>{
-      console.log(res)
-    })
-    .catch(err=>console.log(err))
+    const zip = await Location.reverseGeocodeAsync(location)
+    console.log('zip:',zip[0].postalCode)
+    setZipcode(zip[0].postalCode)
+    console.log('zipcode:',zipcode)
   }
-
 
 
   // find one unicorn. currently hard-coded id#
@@ -96,7 +95,7 @@ export default function App() {
           onPress={() => alert ('No unicorns yet!')}
           style={styles.button}
         >
-        <Text style={styles.buttonText}>Let's pick a photo!</Text>
+        <Text style={styles.buttonText}>Let's do something</Text>
         </TouchableOpacity>
         <StatusBar style="auto" />
     </View>
