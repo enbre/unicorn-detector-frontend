@@ -2,23 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dbdfb5a-6853-4e00-a470-aa1d43be8146" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Amethyst_Star_ID_S5E1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Breezy Night_ID_S5E14.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Citrine_Spark_ID_S8E1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Clear_Sky_ID_S9E6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Comet_Tail_ID_S4E02.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Firelight_ID_S8E8.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Fuzzy Mint_true_form_ID_S5E2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Lemon_Hearts_ID_S4E19.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Log_Jam_ID_S6E25.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Luster_Dawn_ID_S9E26.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Neon_Lights_ID_S4E20.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Starlight_Glimmer_ID_S6E2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Trixie_ID_S3E05.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/Twilight_Velvet_id_S1E23.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/amber_spring.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unicorn images/november_rain.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

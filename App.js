@@ -1,32 +1,65 @@
-import { StatusBar } from 'expo-status-bar';
-import React , {useState} from 'react';
+// react imports
+import React , {useState, useEffect} from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import Geocoder from 'react-native-geocoder'
+//expo module imports
 import {LinearGradient} from 'expo-linear-gradient'
+import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location'
+import * as Permissions from 'expo-permissions'
 // import * as Font from 'expo-font'
 // import { useFonts, Lakki Reddy, Comic Nue } from @expo-google-fonts/inter
-// import { HOST_WITH_PORT } from './environment'
+// file imports
 import UnicornModel from './src/models/unicorn'
 import SightingModel from './src/models/sighting'
 import logo from './assets/logo.png'
 
+
+
 export default function App() {
-  // const [location, setLocation] = useState(null)
+  // state:
+  const [errorMsg, setErrorMsg] = useState(null)
+  const [location, setLocation] = useState({})
   const [unicorn,setUnicorn] = useState(null)
   const [sighting, setSighting]= useState(null)
 
+
+  // get location coordinates
+  const getLocation = async () =>{
+    const {status} = await Permissions.askAsync(Permissions.LOCATION)
+    
+    if (status !== 'granted'){
+      console.log('location permission not granted')
+      setErrorMsg("Permission not granted")
+    }
+    const userLocation = await Location.getCurrentPositionAsync()
+    console.log(userLocation)
+    setLocation(userLocation)
+  }
+
+  // convert location coordinates to zipcode
+  const coordToZip = ()=>{
+    Geocoder.geocodePosition().then(res=>{
+      console.log(res)
+    })
+    .catch(err=>console.log(err))
+  }
+
+
+
+  // find one unicorn. currently hard-coded id#
   const findUnicorn = async () => {
     const res = await UnicornModel.show()
     console.log(res.unicorn)
     setUnicorn(res.unicorn)
   }
-  
+  // find all sightings
   const findAllSightings = async () =>{
     const res = await SightingModel.all()
     console.log(res.sightings)
     setSighting(res.sightings)
   }
-
+  // create new sighting. unicorn id & image not working since unicorn state hasn't been established
   const createSighting = async (unicorn) => {
     const newSighting = {
       unicornId: unicorn.id,
@@ -48,7 +81,7 @@ export default function App() {
           Unicorn Detector
         </Text>
         <TouchableOpacity
-          onPress={() => alert ('No unicorns yet!')}
+          onPress={ getLocation }
           >
           <Image 
             // source={{uri:'https://static.wikia.nocookie.net/mlp/images/d/d2/UUM2_ID_S9E26.png/revision/latest?cb=20191013154637' }}
@@ -60,10 +93,9 @@ export default function App() {
         <TouchableOpacity
           // onPress={ findUnicorn }
           // onPress={ findAllSightings }
-          onPress={ createSighting }
+          onPress={() => alert ('No unicorns yet!')}
           style={styles.button}
         >
-        {/* <Button title="help"/> */}
         <Text style={styles.buttonText}>Let's pick a photo!</Text>
         </TouchableOpacity>
         <StatusBar style="auto" />
@@ -95,6 +127,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 15,
     borderRadius: 30,
+    borderWidth: 2,
     borderColor: "rgba(129, 90, 159, 1)",
   },
   instructions: {
