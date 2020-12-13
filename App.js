@@ -8,7 +8,8 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location'
 import * as Permissions from 'expo-permissions'
-// import * as Font from 'expo-font'
+import * as Font from 'expo-font'
+import { loadAsync } from 'expo-font';
 // import { useFonts, Lakki Reddy, Comic Nue } from @expo-google-fonts/inter
 // file imports
 import UnicornModel from './src/models/unicorn'
@@ -21,14 +22,34 @@ import logo from './assets/logo.png'
 export default function App() {
   // state:
   const [errorMsg, setErrorMsg] = useState(null)
-  const [weather, setWeather] = useState(null)
   const [lat, setLat] = useState(null)
   const [lon, setLon] = useState(null)
+  const [weather, setWeather] = useState(null)
   const [temp, setTemp] = useState(null)
   const [wind, setWind] = useState(null)
+  const [unicornId, setUnicornId] = useState(null)
   const [unicorn, setUnicorn] = useState(null)
   const [sighting, setSighting] = useState(null)
+  // const [fontsLoaded, setFontsLoaded] = useState(false)
 
+  // const [loaded] = Font.useFonts ({
+  //   Chicle: require ('./assets/fonts/Chicle-Regular.ttf'),
+  //   ComicNeue: require('./assets/fonts/ComicNeue-Regular.ttf')
+  // })
+
+  // if (!loaded){
+  //   return null
+  // }
+  // const fonts = {
+  //   Chicle: require ('./assets/fonts/Chicle-Regular.ttf'),
+  //   ComicNeue: require('./assets/fonts/ComicNeue-Regular.ttf')
+  // }
+
+  // async function _loadFontsAsync (){
+  // // const loadFontsAsync = async()=>{
+  //   await Font.loadAsync(fonts)
+  //   setFontsLoaded(true)
+  // }
 
   // get location coordinates
   const getLocation = async () => {
@@ -44,28 +65,105 @@ export default function App() {
     setLon(userLocation.coords.longitude)
   }
 
-
   useEffect(() => {
-    console.log("latitude state:", lat)
-    console.log("longitude state:", lon)
-    console.log("-----------")
+    // console.log("latitude state:", lat)
+    // console.log("longitude state:", lon)
+    // console.log("-----------")
     fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=imperial`)
       .then(res => res.json())
       .then(json => {
         setWeather(json)
       });
     if (weather) {
+      // redundant api request to address asynchronous attempts to set state
       fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=imperial`)
         .then(res => res.json())
         .then(json => {
-          setTemp(json.main.temp)
-          setWind(json.wind.speed)
+          // console.log('all weather data:', json);
+          setTemp(Math.round(json.main.temp))
+          setWind(Math.round(json.wind.speed))
         });
     }
+    // console.log('wind state:', wind);
+    // console.log('temp state:', temp);
+    // console.log("-----------")
+  }, [lat, lon])
+
+  // // alternate get weather function
+  // useEffect(() => {
+  //   const getWeather = async () =>{
+  //     try{
+  //       let response = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=imperial`)
+  //       let json = await response.json()
+  //       .then(json => {
+  //         console.log('all weather data:', json);
+  //         setTemp(json.main.temp)
+  //         setWind(json.wind.speed)
+  //       });
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+  //   console.log('wind state:', wind);
+  //   console.log('temp state:', temp);
+  //   console.log("-----------")
+  // }, [lat, lon])
+
+  useEffect(() => {
     console.log('wind state:', wind);
     console.log('temp state:', temp);
     console.log("-----------")
-  }, [lon])
+    const pickUnicornId = async () => {
+      if (temp === 53) {
+        setUnicornId(3)
+      }
+      else if (temp === 53) {
+        setUnicornId(4)
+      }
+      else if (temp === 57) {
+        setUnicornId(5)
+      }
+      else if (temp === 59) {
+        setUnicornId(6)
+      }
+      else if (temp === 61) {
+        setUnicornId(7)
+      }
+      else if (temp === 63) {
+        setUnicornId(8)
+      }
+      else if (temp === 65) {
+        setUnicornId(9)
+      }
+      else if (temp === 67) {
+        setUnicornId(10)
+      }
+      else if (temp === 69) {
+        setUnicornId(11)
+      }
+      else if (temp === 71) {
+        setUnicornId(12)
+      }
+      else if (temp === 73) {
+        setUnicornId(13)
+      }
+      else if (temp === 75) {
+        setUnicornId(14)
+      }
+      else if (temp === 77) {
+        setUnicornId(15)
+      }
+      else if (temp === 79) {
+        setUnicornId(16)
+      }
+      else if (temp === 81) {
+        setUnicornId(17)
+      }
+      else {
+        setUnicornId(2)
+      }
+    }
+  }, [temp])
 
 
   // find one unicorn. currently hard-coded id#
@@ -74,6 +172,7 @@ export default function App() {
     console.log(res.unicorn)
     setUnicorn(res.unicorn)
   }
+  
   // find all sightings
   const findAllSightings = async () => {
     const res = await SightingModel.all()
@@ -93,8 +192,6 @@ export default function App() {
     findAllSighting()
   }
 
-
-
   return (
     <View style={styles.container}>
       <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
@@ -102,6 +199,7 @@ export default function App() {
         Unicorn Detector
         </Text>
       <TouchableOpacity
+
         onPress={getLocation}
       >
         <Image
@@ -110,11 +208,8 @@ export default function App() {
           style={styles.logo}
         />
       </TouchableOpacity>
-      <Text style={styles.instructions}>Short the logo for unicorns!</Text>
+      <Text style={styles.instructions}>Short press the logo to search for unicorns!</Text>
       <TouchableOpacity
-        // onPress={ findUnicorn }
-        // onPress={ findAllSightings }
-        // onPress={() => alert('No unicorns yet!')}
         style={styles.button}
       >
         <Text style={styles.buttonText}>Let's do something</Text>
@@ -139,6 +234,7 @@ const styles = StyleSheet.create({
   title: {
     color: 'rgba(129, 90, 159, 1)',
     fontSize: 35,
+    // fontFamily: 'Chicle',
     marginHorizontal: 15,
     marginBottom: 75,
     marginTop: -50
@@ -154,11 +250,13 @@ const styles = StyleSheet.create({
   instructions: {
     marginTop: 50,
     color: 'rgba(129, 90, 159, 1)',
-    fontSize: 18
+    fontSize: 18,
+    // fontFamily: "ComicNeue"
   },
   buttonText: {
     color: 'rgba(129, 90, 159, 1)',
-    fontSize: 18
+    fontSize: 18,
+    // fontFamily: "ComicNeue"
   },
   backgroundGradient: {
     position: 'absolute',

@@ -14,3 +14,6 @@ web-build/
 
 # android studio
 .idea
+
+# keys
+utils/weatherKey.js
