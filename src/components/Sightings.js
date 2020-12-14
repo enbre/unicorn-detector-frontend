@@ -8,18 +8,25 @@ import { LinearGradient } from 'expo-linear-gradient'
 import * as Font from 'expo-font'
 
 
+const SingleSighting = ()=>{
 
+   return(
+      <View>
+         <Image></Image>
+      </View>
+   )
+}
 
-
-export default function Home({navigation}) {
-
-
+export default function Sightings({navigation, route}) {
    return (
       <View style={styles.container}>
          <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
          <Text style={styles.title}>
             Sightings screen
-          </Text>
+         </Text>
+         <View style={styles.list}>
+
+         </View>
          <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Home')}
@@ -48,11 +55,22 @@ const styles = StyleSheet.create({
       fontSize: 35,
       // fontFamily: 'Chicle',
       marginHorizontal: 15,
-      marginBottom: 75,
-      marginTop: -50
+      marginBottom: 15,
+      // marginTop: -10
    },
+   list: {
+      width: 300,
+      height: 450,
+      backgroundColor: "white",
+      padding: 15,
+      borderRadius: 30,
+      borderWidth: 4,
+      borderColor: "rgba(129, 90, 159, 1)",
+      marginBottom: 15
+   },
+
    button: {
-      marginTop: 50,
+      marginTop: 10,
       backgroundColor: "white",
       padding: 15,
       borderRadius: 30,

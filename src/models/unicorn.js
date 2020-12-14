@@ -8,7 +8,7 @@ export default class UnicornModel {
     }
     ).then(res => res.json())
   }
-
+ 
   static show(unicornData) { 
     return fetch(`${URL}/unicorns/${unicornId}`, {
     // return fetch(`${URL}/unicorns/15`, {

@@ -21,10 +21,11 @@ import { API_KEY } from './utils/weatherKey'
 // import logo from './assets/logo.png'
 
 
-const Root = createStackNavigator()
+const Stack = createStackNavigator()
 
 export default function App() {
   // state:
+  const [count, setCount] = useState(0)
   const [errorMsg, setErrorMsg] = useState(null)
   const [lat, setLat] = useState(null)
   const [lon, setLon] = useState(null)
@@ -55,6 +56,12 @@ export default function App() {
   //   setFontsLoaded(true)
   // }
 
+  const testFunction = ()=>{
+    console.log('testing!')
+    setCount( count+1)
+    console.log('count:', count)
+  }
+
   // get location coordinates
   const getLocation = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION)
@@ -67,6 +74,7 @@ export default function App() {
     const userLocation = await Location.getCurrentPositionAsync()
     setLat(userLocation.coords.latitude)
     setLon(userLocation.coords.longitude)
+    console.log('lat state:', lat)
   }
 
   // useEffect(() => {
@@ -172,7 +180,7 @@ export default function App() {
 
   // find one unicorn. currently hard-coded id#
   const findUnicorn = async () => {
-    const res = await UnicornModel.show()
+    const res = await UnicornModel.show(unicornId)
     console.log(res.unicorn)
     setUnicorn(res.unicorn)
   }
@@ -198,11 +206,12 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Root.Navigator initialRouteName="Home"> 
-        <Root.Screen name="Home" component={Home} />
-        <Root.Screen name="Unicorn" component={Unicorn} />
-        <Root.Screen name="Sightings" component={Sightings} />
-      </Root.Navigator> 
+      <Stack.Navigator initialRouteName="Home" headerMode="none"> 
+        <Stack.Screen name="Home" component={Home} initialParams={{count, testFunction}}/>
+        {/* <Stack.Screen name="Home" component={Home} params={{count, testFunction}}/> */}
+        <Stack.Screen name="Unicorn" component={Unicorn} />
+        <Stack.Screen name="Sightings" component={Sightings} />
+      </Stack.Navigator> 
     </NavigationContainer>
   
   

@@ -11,7 +11,7 @@ import * as Font from 'expo-font'
 
 
 
-export default function Home({navigation}) {
+export default function Unicorn({ navigation, route }) {
 
 
    return (
@@ -19,7 +19,17 @@ export default function Home({navigation}) {
          <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
          <Text style={styles.title}>
             Unicorn Screen
-          </Text>
+         </Text>
+         {/* <View style={styles.imageBox}> */}
+            <Image
+               // source={props.unicorn.image}
+               source={{uri:'https://static.wikia.nocookie.net/mlp/images/d/d2/UUM2_ID_S9E26.png/revision/latest?cb=20191013154637' }}
+               style={styles.image}
+            />
+         {/* </View> */}
+         {/* <Text style={styles.description}>
+            {unicorn.description}
+         </Text> */}
          <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Home')}
@@ -51,8 +61,34 @@ const styles = StyleSheet.create({
       marginBottom: 75,
       marginTop: -50
    },
+   imageBox: {
+      // resizeMode: "contain",
+      // marginTop: 10,
+      // width: 300,
+      // height: 300,
+      // backgroundColor: "white",
+      // padding: 15,
+      borderRadius: 30,
+      borderWidth: 4,
+      borderColor: "rgba(129, 90, 159, 1)",
+      marginBottom:15,
+
+   },
+   image: {
+      // resizeMode: "contain",
+      // marginTop: 10,
+      width: 300,
+      height: 300,
+      backgroundColor: "white",
+      padding: 15,
+      borderRadius: 30,
+      borderWidth: 4,
+      borderColor: "rgba(129, 90, 159, 1)",
+      marginBottom:15,
+
+   },
    button: {
-      marginTop: 50,
+      marginTop: 10,
       backgroundColor: "white",
       padding: 15,
       borderRadius: 30,
@@ -77,10 +113,6 @@ const styles = StyleSheet.create({
       top: 0,
       height: 800
    },
-   thumbnail: {
-      width: 300,
-      height: 300,
-      resizeMode: "contain"
-   }
+ 
 
 });
