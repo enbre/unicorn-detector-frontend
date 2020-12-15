@@ -10,8 +10,8 @@ export default class UnicornModel {
   }
  
   static show(unicornData) { 
-    return fetch(`${URL}/unicorns/${unicornId}`, {
-    // return fetch(`${URL}/unicorns/15`, {
+    // return fetch(`${URL}/unicorns/${unicornId}`, {
+    return fetch(`${URL}/unicorns/15`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"

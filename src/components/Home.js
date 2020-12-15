@@ -12,8 +12,8 @@ import logo from '../../assets/logo.png'
 
 
 
-export default function Home({ navigation, route }) {
-   const {count, testFunction}   = route.params
+export default function Home({ navigation, route, count, testFunction }) {
+   // const {count, testFunction}   = route.params
 
    return (
       <View style={styles.container}>
@@ -26,7 +26,7 @@ export default function Home({ navigation, route }) {
           </Text>
          <TouchableOpacity
          //  onPress={props.getLocation}
-          onPress={()=>route.params.testFunction()}
+          onPress={testFunction}
          //  console.log('pressed')
          >
             <Image
