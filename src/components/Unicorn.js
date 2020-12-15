@@ -11,7 +11,7 @@ import * as Font from 'expo-font'
 
 
 
-export default function Unicorn({ navigation, route, unicorn, createSighting}) {
+export default function Unicorn({ navigation, route, unicorn, setUnicorn, setLat, createSighting}) {
 
 
    return (
@@ -34,15 +34,16 @@ export default function Unicorn({ navigation, route, unicorn, createSighting}) {
          </Text>
          <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Home')}
-         >
-            <Text style={styles.buttonText}>Search again!</Text>
-         </TouchableOpacity>
-         <TouchableOpacity
-            style={styles.button}
             onPress={() => navigation.navigate('Sightings')}
          >
             <Text style={styles.buttonText}>See recent sightings!</Text>
+         </TouchableOpacity>
+         <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Home'),setUnicorn(null), setLat(null)}
+            
+         >
+            <Text style={styles.buttonText}>Search again!</Text>
          </TouchableOpacity>
       </View>
    );

@@ -1,7 +1,7 @@
 // react imports
 import React, { useState, useEffect } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
-import { NavigationContainer, StackActions } from '@react-navigation/native'
+import { NavigationContainer, StackActions, useNavigation } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 // expo imports
 import { LinearGradient } from 'expo-linear-gradient'
@@ -12,8 +12,20 @@ import logo from '../../assets/logo.png'
 
 
 
-export default function Home({ navigation, route, getLocation }) {
-   // const {count, testFunction}   = route.params
+export default function Home({ navigation, route, getLocation, unicorn }) {
+  
+   // // redirect to Unicorn screen
+   const goToUnicornScreen = async () => {
+      console.log('in goToUnicornScreen', unicorn)
+
+      await navigation.navigate('Unicorn')
+   }
+
+   useEffect(() => {
+      if (unicorn){
+         goToUnicornScreen()
+      }
+   }, [unicorn])
 
    return (
       <View style={styles.container}>
@@ -21,21 +33,24 @@ export default function Home({ navigation, route, getLocation }) {
          <Text style={styles.title}>
             Unicorn Detector
          </Text>
-         <TouchableOpacity onPress={getLocation} >
+         <TouchableOpacity
+            onPress={getLocation}
+         >
             <Image
                source={logo}
                style={styles.logo}
             />
          </TouchableOpacity>
-         <Text style={styles.instructions}>Press the logo to search for unicorns!</Text>
+         {/* <Text style={styles.instructions}>Press the logo to search for unicorns!</Text>
          <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Unicorn')}
          >
             <Text style={styles.buttonText}>link to unicorn screen</Text>
-         </TouchableOpacity>
+         </TouchableOpacity> */}
          <TouchableOpacity
             style={styles.button}
+            // onPress={setTimeout(() => {()=>navigation.navigate('Sightings')},10000)}
             onPress={() => navigation.navigate('Sightings')}
          >
             <Text style={styles.buttonText}>See recent sightings!</Text>

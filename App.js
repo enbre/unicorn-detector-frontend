@@ -1,7 +1,7 @@
 // react imports
 import React, { useState, useEffect } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
-import { NavigationContainer, StackActions } from '@react-navigation/native'
+import { NavigationContainer, StackActions, useNavigation } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 //expo module imports
 import { LinearGradient } from 'expo-linear-gradient'
@@ -19,8 +19,10 @@ import { API_KEY } from './utils/weatherKey'
 
 
 const Stack = createStackNavigator()
+// const navigation = useNavigation()
 
 export default function App() {
+  // const navigation = useNavigation()
   // state:
   const [errorMsg, setErrorMsg] = useState(null)
   const [lat, setLat] = useState(null)
@@ -109,7 +111,7 @@ export default function App() {
       setUnicornId(17)
     }
     else {
-      setUnicornId(2)
+      setUnicornId(17)
     }
   }
 
@@ -126,15 +128,19 @@ export default function App() {
   //find one unicorn. currently hard-coded id to 15
   const findUnicorn = async (unicornId) => {
     const res = await UnicornModel.show(unicornId)
+    // console.log("in findUnicorn",res.unicorn)
     console.log("in findUnicorn",res.unicorn)
     setUnicorn(res.unicorn)
   }
 
   useEffect(() => {
+    console.log('in findUnicorn useEffect outer')
     if (unicornId){
-      findUnicorn()
+      console.log('in findUnicorn useEffect inner')
+      findUnicorn(unicornId)
     }
   }, [unicornId])
+
 
   // // find all sightings
   const findAllSightings = async () => {
@@ -164,6 +170,7 @@ export default function App() {
           {props => <Home 
             {...props} 
             getLocation={getLocation} 
+            unicorn={unicorn}
           />}
         </Stack.Screen>
         <Stack.Screen name="Unicorn">
@@ -171,13 +178,17 @@ export default function App() {
             {...props} 
             unicorn={unicorn}
             createSighting={createSighting}
+            setLat={setLat} 
+            setUnicorn={setUnicorn}
 
           />}
         </Stack.Screen> 
         <Stack.Screen name="Sightings">
           {props => <Sightings 
             {...props} 
-            sightings={sightings}  
+            sightings={sightings} 
+            setLat={setLat} 
+            setUnicorn={setUnicorn}
             />}
         </Stack.Screen> 
       </Stack.Navigator>

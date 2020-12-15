@@ -17,7 +17,7 @@ const SingleSighting = ()=>{
    )
 }
 
-export default function Sightings({navigation, route}) {
+export default function Sightings({navigation, route, sightings, setLat, setUnicorn}) {
    return (
       <View style={styles.container}>
          <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
@@ -29,16 +29,16 @@ export default function Sightings({navigation, route}) {
          </View>
          <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('Home'), setUnicorn(null), setLat(null)}
          >
             <Text style={styles.buttonText}>Search again!</Text>
          </TouchableOpacity>
-         <TouchableOpacity
+         {/* <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Unicorn')}
          >
             <Text style={styles.buttonText}>Link to unicorn screen</Text>
-         </TouchableOpacity>
+         </TouchableOpacity> */}
       </View>
    );
 }
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
    button: {
       marginTop: 30,
       backgroundColor: "white",
-      padding: 15,
+      padding: 10,
       borderRadius: 30,
       borderWidth: 2,
       borderColor: "rgba(129, 90, 159, 1)",
