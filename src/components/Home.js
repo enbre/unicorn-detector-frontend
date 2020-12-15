@@ -12,7 +12,7 @@ import logo from '../../assets/logo.png'
 
 
 
-export default function Home({ navigation, route, count, testFunction }) {
+export default function Home({ navigation, route, getLocation }) {
    // const {count, testFunction}   = route.params
 
    return (
@@ -20,21 +20,14 @@ export default function Home({ navigation, route, count, testFunction }) {
          <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
          <Text style={styles.title}>
             Unicorn Detector
-          </Text>
-         <Text style={styles.title}>
-            Count: {count}
-          </Text>
-         <TouchableOpacity
-         //  onPress={props.getLocation}
-          onPress={testFunction}
-         //  console.log('pressed')
-         >
+         </Text>
+         <TouchableOpacity onPress={getLocation} >
             <Image
                source={logo}
                style={styles.logo}
             />
          </TouchableOpacity>
-         <Text style={styles.instructions}>Short press the logo to search for unicorns!</Text>
+         <Text style={styles.instructions}>Press the logo to search for unicorns!</Text>
          <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Unicorn')}
@@ -45,7 +38,7 @@ export default function Home({ navigation, route, count, testFunction }) {
             style={styles.button}
             onPress={() => navigation.navigate('Sightings')}
          >
-            <Text style={styles.buttonText}>Link to sightings screen</Text>
+            <Text style={styles.buttonText}>See recent sightings!</Text>
          </TouchableOpacity>
          {/* <StatusBar style="auto" /> */}
       </View>
@@ -69,11 +62,11 @@ const styles = StyleSheet.create({
       fontSize: 35,
       // fontFamily: 'Chicle',
       marginHorizontal: 15,
-      marginBottom: 75,
+      marginBottom: 30,
       marginTop: -50
    },
    button: {
-      marginTop: 10,
+      marginTop: 30,
       backgroundColor: "white",
       padding: 10,
       borderRadius: 30,

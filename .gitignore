@@ -17,3 +17,4 @@ web-build/
 
 # keys
 utils/weatherKey.js
+utils/fontImport.js

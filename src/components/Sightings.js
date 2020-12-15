@@ -31,7 +31,7 @@ export default function Sightings({navigation, route}) {
             style={styles.button}
             onPress={() => navigation.navigate('Home')}
          >
-            <Text style={styles.buttonText}>link to home screen</Text>
+            <Text style={styles.buttonText}>Search again!</Text>
          </TouchableOpacity>
          <TouchableOpacity
             style={styles.button}
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
       width: 300,
       height: 450,
       backgroundColor: "white",
-      padding: 15,
+      padding: 10,
       borderRadius: 30,
       borderWidth: 4,
       borderColor: "rgba(129, 90, 159, 1)",
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
    },
 
    button: {
-      marginTop: 10,
+      marginTop: 30,
       backgroundColor: "white",
       padding: 15,
       borderRadius: 30,

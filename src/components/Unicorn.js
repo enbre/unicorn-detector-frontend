@@ -11,36 +11,38 @@ import * as Font from 'expo-font'
 
 
 
-export default function Unicorn({ navigation, route }) {
+export default function Unicorn({ navigation, route, unicorn, createSighting}) {
 
 
    return (
       <View style={styles.container}>
          <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
          <Text style={styles.title}>
-            Unicorn Screen
+            {/* Unicorn Screen */}
+            {unicorn.name}
          </Text>
-         {/* <View style={styles.imageBox}> */}
+
             <Image
-               // source={props.unicorn.image}
-               source={{uri:'https://static.wikia.nocookie.net/mlp/images/d/d2/UUM2_ID_S9E26.png/revision/latest?cb=20191013154637' }}
+               source={{uri: unicorn.image}}
+               // source={{uri:'https://static.wikia.nocookie.net/mlp/images/d/d2/UUM2_ID_S9E26.png/revision/latest?cb=20191013154637' }}
                style={styles.image}
             />
-         {/* </View> */}
-         {/* <Text style={styles.description}>
-            {unicorn.description}
-         </Text> */}
+
+         <Text style={styles.description}>
+
+            {/* {unicorn.description} */}
+         </Text>
          <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Home')}
          >
-            <Text style={styles.buttonText}>link to home screen</Text>
+            <Text style={styles.buttonText}>Search again!</Text>
          </TouchableOpacity>
          <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Sightings')}
          >
-            <Text style={styles.buttonText}>Link to sightings screen</Text>
+            <Text style={styles.buttonText}>See recent sightings!</Text>
          </TouchableOpacity>
       </View>
    );
@@ -88,9 +90,9 @@ const styles = StyleSheet.create({
 
    },
    button: {
-      marginTop: 10,
+      marginTop: 30,
       backgroundColor: "white",
-      padding: 15,
+      padding: 10,
       borderRadius: 30,
       borderWidth: 2,
       borderColor: "rgba(129, 90, 159, 1)",

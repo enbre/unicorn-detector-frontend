@@ -5,11 +5,9 @@ import { NavigationContainer, StackActions } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 //expo module imports
 import { LinearGradient } from 'expo-linear-gradient'
-// import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location'
 import * as Permissions from 'expo-permissions'
 import * as Font from 'expo-font'
-// import { useFonts, Lakki Reddy, Comic Nue } from @expo-google-fonts/inter
 // file imports
 import Home from './src/components/Home'
 import Unicorn from './src/components/Unicorn'
@@ -24,7 +22,6 @@ const Stack = createStackNavigator()
 
 export default function App() {
   // state:
-  const [count, setCount] = useState(0)
   const [errorMsg, setErrorMsg] = useState(null)
   const [lat, setLat] = useState(null)
   const [lon, setLon] = useState(null)
@@ -32,33 +29,7 @@ export default function App() {
   const [wind, setWind] = useState(null)
   const [unicornId, setUnicornId] = useState(null)
   const [unicorn, setUnicorn] = useState(null)
-  const [sighting, setSighting] = useState(null)
-  // const [fontsLoaded, setFontsLoaded] = useState(false)
-
-  // const [loaded] = Font.useFonts ({
-  //   Chicle: require ('./assets/fonts/Chicle-Regular.ttf'),
-  //   ComicNeue: require('./assets/fonts/ComicNeue-Regular.ttf')
-  // })
-
-  // if (!loaded){
-  //   return null
-  // }
-  // const fonts = {
-  //   Chicle: require ('./assets/fonts/Chicle-Regular.ttf'),
-  //   ComicNeue: require('./assets/fonts/ComicNeue-Regular.ttf')
-  // }
-
-  // async function _loadFontsAsync (){
-  // // const loadFontsAsync = async()=>{
-  //   await Font.loadAsync(fonts)
-  //   setFontsLoaded(true)
-  // }
-
-  const testFunction = () => {
-    console.log('testing!')
-    setCount(count + 1)
-    console.log('count:', count)
-  }
+  const [sightings, setSightings] = useState(null)
 
   // get location coordinates
   const getLocation = async () => {
@@ -154,9 +125,8 @@ export default function App() {
 
   //find one unicorn. currently hard-coded id to 15
   const findUnicorn = async (unicornId) => {
-    // const res = await UnicornModel.show(unicornId)
     const res = await UnicornModel.show(unicornId)
-    console.log(res.unicorn)
+    console.log("in findUnicorn",res.unicorn)
     setUnicorn(res.unicorn)
   }
 
@@ -164,124 +134,53 @@ export default function App() {
     if (unicornId){
       findUnicorn()
     }
-    // console.log('unicorn:',unicorn)
   }, [unicornId])
 
   // // find all sightings
-  // const findAllSightings = async () => {
-  //   const res = await SightingModel.all()
-  //   console.log(res.sightings)
-  //   setSighting(res.sightings)
-  // }
-  // // create new sighting. unicorn id & image not working since unicorn state hasn't been established
-  // const createSighting = async (unicorn) => {
-  //   const newSighting = {
-  //     unicornId: unicorn.id,
-  //     unicornImg: unicorn.image,
-  //     location: "Four blocks away!",
-  //     date: "12-11-2020"
-  //   }
-  //   console.log(newSighting)
-  //   await SightingModel.create(newSighting)
-  //   findAllSighting()
-  // }
+  const findAllSightings = async () => {
+    const res = await SightingModel.all()
+    console.log(res.sightings)
+    setSightings(res.sightings)
+  }
+
+  // create new sighting. unicorn id & image not working since unicorn state hasn't been established
+  const createSighting = async (unicorn) => {
+    const newSighting = {
+      unicornId: unicorn.id,
+      unicornImg: unicorn.image,
+      location: "Four blocks away!",
+      date: "12-11-2020"
+    }
+    console.log(newSighting)
+    await SightingModel.create(newSighting)
+    findAllSighting()
+  }
 
   return (
 
-    // <NavigationContainer>
-    //   <Stack.Navigator initialRouteName="Home" headerMode="none">
-    //     <Stack.Screen name="Home">
-    //       {props => <Home {...props} count={count} testFunction={testFunction} />}
-    //     </Stack.Screen>
-    //     {/* <Stack.Screen name="Home" component={Home} params={{count, testFunction}}/> */}
-    //     <Stack.Screen name="Unicorn" component={Unicorn} />
-    //     <Stack.Screen name="Sightings" component={Sightings} />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home" headerMode="none">
+        <Stack.Screen name="Home">
+          {props => <Home 
+            {...props} 
+            getLocation={getLocation} 
+          />}
+        </Stack.Screen>
+        <Stack.Screen name="Unicorn">
+          {props => <Unicorn 
+            {...props} 
+            unicorn={unicorn}
+            createSighting={createSighting}
 
-    <View style={styles.container}>
-      <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
-      <Text style={styles.title}>
-        Unicorn Detector
-        </Text>
-      {/* <TouchableOpacity
-
-      >
-        <Image
-          // source={{uri:'https://static.wikia.nocookie.net/mlp/images/d/d2/UUM2_ID_S9E26.png/revision/latest?cb=20191013154637' }}
-          source={logo}
-          style={styles.logo}
-        />
-      </TouchableOpacity> */}
-      <Text style={styles.instructions}>Short press the logo to search for unicorns!</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={getLocation}
-      >
-        <Text style={styles.buttonText}>Test button</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={console.log('unicorn id:',unicornId)}
-        // onPress={()=> alert ('unicorn id:',{unicornId})}
-      >
-        <Text style={styles.buttonText}>Get unicorn id</Text>
-      </TouchableOpacity>
-      {/* <StatusBar style="auto" /> */}
-    </View>
+          />}
+        </Stack.Screen> 
+        <Stack.Screen name="Sightings">
+          {props => <Sightings 
+            {...props} 
+            sightings={sightings}  
+            />}
+        </Stack.Screen> 
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'rgb(229,184,244)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
-    width: 275,
-    height: 275,
-    marginBottom: 10
-  },
-  title: {
-    color: 'rgba(129, 90, 159, 1)',
-    fontSize: 35,
-    // fontFamily: 'Chicle',
-    marginHorizontal: 15,
-    marginBottom: 75,
-    marginTop: -50
-  },
-  button: {
-    marginTop: 50,
-    backgroundColor: "white",
-    padding: 15,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: "rgba(129, 90, 159, 1)",
-  },
-  instructions: {
-    marginTop: 50,
-    color: 'rgba(129, 90, 159, 1)',
-    fontSize: 18,
-    // fontFamily: "ComicNeue"
-  },
-  buttonText: {
-    color: 'rgba(129, 90, 159, 1)',
-    fontSize: 18,
-    // fontFamily: "ComicNeue"
-  },
-  backgroundGradient: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    height: 800
-  },
-  thumbnail: {
-    width: 300,
-    height: 300,
-    resizeMode: "contain"
-  }
-
-});
