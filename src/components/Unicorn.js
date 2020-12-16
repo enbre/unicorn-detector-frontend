@@ -21,6 +21,7 @@ export default function Unicorn({ navigation, route }) {
       const newSighting = {
          unicornId: unicorn.id,
          unicornImg: unicorn.image,
+         unicornName: unicorn.name,
          location: "Four blocks away!",
          date: "12-11-2020"
       }
