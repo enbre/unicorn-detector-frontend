@@ -8,16 +8,14 @@ export default class UnicornModel {
     }
     ).then(res => res.json())
   }
-
-  static show(unicornData) { 
+ 
+  static show(unicornId) { 
     return fetch(`${URL}/unicorns/${unicornId}`, {
     // return fetch(`${URL}/unicorns/15`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
       },
-      // credentials: "include",
-      body: JSON.stringify(unicornData)
     }).then(res => res.json())
   }
 
