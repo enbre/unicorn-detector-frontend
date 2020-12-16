@@ -6,39 +6,44 @@ import { createStackNavigator } from '@react-navigation/stack'
 // expo imports
 import { LinearGradient } from 'expo-linear-gradient'
 import * as Font from 'expo-font'
+// file imports
+import SightingModel from '../../src/models/sighting'
 
 
-const SingleSighting = ()=>{
+const SingleSighting = () => {
 
-   return(
+   return (
       <View>
          <Image></Image>
       </View>
    )
 }
 
-export default function Sightings({navigation, route, sightings, setLat, setUnicorn}) {
+export default function Sightings({ navigation, route }) {
+   const [sightings, setSightings] = useState(null)
+
+   // // find all sightings from DB
+   const findAllSightings = async () => {
+      const res = await SightingModel.all()
+      console.log(res.sightings)
+      setSightings(res.sightings)
+   }
+
    return (
       <View style={styles.container}>
          <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
-         <Text style={styles.title}>
+         {/* <Text style={styles.title}>
             Sightings screen
-         </Text>
+         </Text> */}
          <View style={styles.list}>
 
          </View>
          <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Home'), setUnicorn(null), setLat(null)}
+            onPress={() => navigation.navigate('Home')}
          >
             <Text style={styles.buttonText}>Search again!</Text>
          </TouchableOpacity>
-         {/* <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Unicorn')}
-         >
-            <Text style={styles.buttonText}>Link to unicorn screen</Text>
-         </TouchableOpacity> */}
       </View>
    );
 }
@@ -49,7 +54,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
    },
- 
+
    title: {
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 35,
@@ -59,8 +64,8 @@ const styles = StyleSheet.create({
       // marginTop: -10
    },
    list: {
-      width: 300,
-      height: 450,
+      width: 320,
+      height: 550,
       backgroundColor: "white",
       padding: 10,
       borderRadius: 30,
