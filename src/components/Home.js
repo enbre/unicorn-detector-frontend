@@ -35,6 +35,7 @@ export default function Home({ navigation, route }) {
       setLat(userLocation.coords.latitude)
       setLon(userLocation.coords.longitude)
    }
+   
    // get weather data
    const getWeather = async () => {
       const res = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=imperial`)
@@ -52,54 +53,53 @@ export default function Home({ navigation, route }) {
    // conditional function to set unicornId based on temp state 
    const pickUnicornId = () => {
       if (temp === 54) { 
-         setUnicornId(3)
+         setUnicornId(49)
       }
       else if (temp === 56) {
-         setUnicornId(22)
-      }
-      else if (temp === 57) {
-         setUnicornId(19)
+         setUnicornId(50)
       }
       else if (temp === 58) {
-         setUnicornId(20)
+         setUnicornId(51)
       }
-      else if (temp === 59) {
-         setUnicornId(27)
+      else if (temp === 60) {
+         setUnicornId(52)
       }
-      else if (temp === 63) {
-         setUnicornId(8)
+      else if (temp === 62) {
+         setUnicornId(53)
       }
-      else if (temp === 65) {
-         setUnicornId(9)
+      else if (temp === 64) {
+         setUnicornId(54)
       }
-      else if (temp === 67) {
-         setUnicornId(10)
+      else if (temp === 66) {
+         setUnicornId(55)
       }
-      else if (temp === 69) {
-         setUnicornId(11)
+      else if (temp === 68) {
+         setUnicornId(56)
       }
-      else if (temp === 71) {
-         setUnicornId(12)
+      else if (temp === 70) {
+         setUnicornId(57)
       }
-      else if (temp === 73) {
-         setUnicornId(13)
+      else if (temp === 72) {
+         setUnicornId(58)
       }
-      else if (temp === 75) {
-         setUnicornId(14)
+      else if (temp === 74) {
+         setUnicornId(59)
       }
-      else if (temp === 77) {
-         setUnicornId(15)
+      else if (temp === 76) {
+         setUnicornId(60)
       }
-      else if (temp === 79) {
-         setUnicornId(16)
+      else if (temp === 78) {
+         setUnicornId(61)
       }
       else if (temp === 81) {
-         setUnicornId(17)
+         setUnicornId(62)
+      }
+      else if (temp === 85) {
+         setUnicornId(63)
       }
       else {
-         setUnicornId(31)
+         setUnicornId(64)
       }
-      console.log('in pickUnicornId:',unicornId)
    }
 
    useEffect(() => {

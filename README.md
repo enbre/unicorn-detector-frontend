@@ -23,6 +23,7 @@
 #### * Sightings button will display all recent unicorn sightings. This would include the unicorn image, name, date of sighting, and possibly approximate distance from the user's device. 
 #### * When viewing the sightings, the button at bottom of screen switches to a “Search for unicorns” button
 
+---
 ####  Wireframes:
 
 #### ![wireframe 1](./assets/mockups.png) 
@@ -39,15 +40,41 @@
 
 ####  Screenshots:
 
-#### ![siteScreenshot 1](./assets/Screenshot1.png) ![siteScreenshot 2](./assets/screenshot2.png) 
+#### ![siteScreenshot 1](./assets/Screenshot1.png) ![siteScreenshot 2](./assets/screenshot2.png) ![siteScreenshot 3](./assets/screenshot3.png)
 
 ---
 
 ## Technologies & Code Snippets
-#### * JavaScript, Node.JS, Sequelize, PostgresQL, React, React-Native, Expo
+#### * JavaScript, Node.JS, ExpressJS, Sequelize, PostgresQL, React, React-Native, Expo
 #### * Sample code:
 #### 
 ```
+   // get location coordinates
+   const getLocation = async () => {
+      const { status } = await Permissions.askAsync(Permissions.LOCATION)
+      if (status !== 'granted') {
+         console.log('location permission not granted')
+         setErrorMsg("Permission not granted")
+      }
+      // use device's location and store lat and long to state of 'location'
+      const userLocation = await Location.getCurrentPositionAsync()
+      setLat(userLocation.coords.latitude)
+      setLon(userLocation.coords.longitude)
+   }
+   
+   // get weather data
+   const getWeather = async () => {
+      const res = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=imperial`)
+      const json = await res.json()
+      setTemp(Math.round(json.main.temp))
+   }
+
+   // get weather data and populate unicorn array
+   useEffect(() => {
+      if (lat && lon) {
+         getWeather();
+      }
+   }, [lat, lon])
 
 
 ```
@@ -55,7 +82,37 @@
 
 #### 
 ```
-  
+return (
+      <View style={styles.container}>
+         <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
+         <Image
+            source={{ uri: unicorn.image }}
+            style={styles.image}
+         />
+         <View style={styles.descriptionContainer}>
+            {unicorn.id === 64 ?
+               <Text style={styles.title}>{unicorn.name} were seen nearby.</Text>
+               : <Text style={styles.title}>{unicorn.name} was seen nearby!</Text>}
+            <Text style={styles.description}>
+               {unicorn.description}
+            </Text>
+         </View>
+         {unicorn.id !== 64 ?
+            <TouchableOpacity
+               style={styles.button}
+               onPress={createSighting}
+            >
+               <Text style={styles.buttonText}>Record your sighting!</Text>
+            </TouchableOpacity> : null}
+
+         <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Home')}
+         >
+            <Text style={styles.buttonText}>Search again!</Text>
+         </TouchableOpacity>
+      </View>
+   );
 ```
 ---
 ## Backend repo
@@ -68,6 +125,6 @@
 ---
 
 ## Future development
-#### Additions to come will be minor debugging, the ability to only show nearby sightings, and eventually show the sightings as pins on a map instead of showing a list.
+#### Additions to come will be minor debugging, adding an animation while unicorns are being searched for, the ability to only show nearby sightings, and eventually show the sightings as pins on a map instead of showing a list.
 
 
