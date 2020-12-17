@@ -46,7 +46,7 @@ export default function Sightings({ navigation, route }) {
          <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
          <View style={styles.list}>
             <ScrollView style={styles.listContainer}>
-               {!sightings ? <Text>""</Text> : sightings.map(sighting => {
+               {!sightings ? <Text style={{color:"white"}}>""</Text> : sightings.map(sighting => {
                   return (
                      <SingleSighting
                         key={sighting.id}
