@@ -1,13 +1,11 @@
 // react imports
 import React, { useState, useEffect } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
-import { NavigationContainer, StackActions } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // expo imports
 import { LinearGradient } from 'expo-linear-gradient'
-import * as Font from 'expo-font'
 // file imports
-import UnicornModel from '../../src/models/unicorn'
+// import UnicornModel from '../../src/models/unicorn'
+import SightingModel from '../../src/models/sighting'
 
 
 
@@ -15,43 +13,42 @@ import UnicornModel from '../../src/models/unicorn'
 
 export default function Unicorn({ navigation, route }) {
    const [unicorn, setUnicorn] = useState(route.params)
+   const [sightings, setSightings] = useState(null)
 
    // create new sighting
    const createSighting = async (unicorn) => {
       const newSighting = {
-         unicornId: unicorn.id,
-         unicornImg: unicorn.image,
-         unicornName: unicorn.name,
-         location: "Four blocks away!",
-         date: "12-11-2020"
+         unicornId: route.params.id,
+         unicornImg: route.params.image,
+         unicornName: route.params.name,
       }
-      console.log(newSighting)
+      console.log('new sighting',newSighting)
       await SightingModel.create(newSighting)
-      findAllSighting()
+      await navigation.navigate('Sightings', sightings)
+
    }
+
+
 
    return (
       <View style={styles.container}>
          <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
          <Image
             source={{ uri: unicorn.image }}
-            // source={{uri:'https://static.wikia.nocookie.net/mlp/images/d/d2/UUM2_ID_S9E26.png/revision/latest?cb=20191013154637' }}
             style={styles.image}
          />
-         <Text style={styles.title}>
-            {/* Unicorn Screen */}
-            {unicorn.name}
-            {/* {unicorn}? {unicorn.name}: Loading... */}
-         </Text>
-
-
-         <Text style={styles.description}>
-
+         <View style={styles.descriptionContainer}>
+            <Text style={styles.title}>
+               {unicorn.name} was seen nearby!
+            </Text>
+            <Text style={styles.description}>
+            He loves to eat eggplant and go squaredancing. He is quite shy, but you might find him hiding in the shadows of a tall tree.
             {/* {unicorn.description} */}
-         </Text>
+            </Text>
+         </View>
          <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Sightings')}
+            onPress={createSighting}
          >
             <Text style={styles.buttonText}>Record your sighting!</Text>
          </TouchableOpacity>
@@ -72,12 +69,26 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
    },
+   descriptionContainer: {
+      // flex: 1,
+      width: 325,
+      alignItems: 'center',
+      justifyContent: 'center',
+   },
    title: {
       color: 'rgba(129, 90, 159, 1)',
-      fontSize: 35,
+      fontSize: 24,
       // fontFamily: 'Chicle',
       marginHorizontal: 15,
-      marginBottom: 75,
+      marginBottom: 25,
+      marginTop: 0
+   },
+   description: {
+      color: 'rgba(129, 90, 159, 1)',
+      fontSize: 20,
+      // fontFamily: 'Chicle',
+      marginHorizontal: 15,
+      marginBottom: 25,
       marginTop: 0
    },
    image: {
@@ -94,19 +105,14 @@ const styles = StyleSheet.create({
 
    },
    button: {
-      marginTop: 30,
+      marginTop: 20,
       backgroundColor: "white",
       padding: 10,
       borderRadius: 30,
       borderWidth: 2,
       borderColor: "rgba(129, 90, 159, 1)",
    },
-   instructions: {
-      marginTop: 50,
-      color: 'rgba(129, 90, 159, 1)',
-      fontSize: 18,
-      // fontFamily: "ComicNeue"
-   },
+
    buttonText: {
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 18,

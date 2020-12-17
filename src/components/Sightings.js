@@ -1,11 +1,8 @@
 // react imports
 import React, { useState, useEffect } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import { NavigationContainer, StackActions } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
 // expo imports
 import { LinearGradient } from 'expo-linear-gradient'
-import * as Font from 'expo-font'
 // file imports
 import SightingModel from '../../src/models/sighting'
 
@@ -17,12 +14,12 @@ const SingleSighting = () => {
          <Image
             style={styles.image}
             source={{uri:'https://static.wikia.nocookie.net/mlp/images/d/d2/UUM2_ID_S9E26.png/revision/latest?cb=20191013154637' }}
-            // source={{ uri: sighting.unicornImg }}
+            // source={{ uri: sighting.image }}
          />
          <View style={styles.sightingTextContainer}>
             <Text style={styles.sightingName}>
                Lemon Zest
-               {/* {sighting.unicornName} */}
+               {/* {sighting.name} */}
             </Text>
             <Text style={styles.sightingDate}>
                12/10/2020
@@ -35,58 +32,44 @@ const SingleSighting = () => {
 
 export default function Sightings({ navigation, route }) {
    const [sightings, setSightings] = useState(null)
-
+   
    // // find all sightings from DB
    const findAllSightings = async () => {
       const res = await SightingModel.all()
-      console.log(res.sightings)
+      console.log('in find all sightings2', res.sightings)
       setSightings(res.sightings)
+      // console.log('sightings in findAllSightings:',sightings)
    }
+   useEffect(()=>{
+      findAllSightings()
+      console.log('sightings useEffect:',sightings)
+   },[])
+   console.log('sightings in component:',sightings)
 
    return (
       <View style={styles.container}>
          <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
-         <ScrollView style={styles.list}>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            <SingleSighting/>
-            {/* <SingleSighting/> */}
-            {/* {sightings.map(sighting=>{
-               return(
-                  <SingleSighting
-                     key={sighting.id}
-                     image={sighting.unicornImg}
-                     name={sighting.unicornName}
-                     date={sighting.date}
-                  />
-               )
-            })} */}
-         </ScrollView>
+         <View style={styles.list}>
+            <ScrollView style={styles.listContainer}>
+               <SingleSighting/>
+               <SingleSighting/>
+               <SingleSighting/>
+               <SingleSighting/>
+               <SingleSighting/>
+               <SingleSighting/>
+            
+               {/* {sightings.map(sighting=>{
+                  return(
+                     <SingleSighting
+                        key={sighting.id}
+                        image={sighting.unicornImg}
+                        name={sighting.unicornName}
+                        date={sighting.date}
+                     />
+                  )
+               })} */}
+            </ScrollView>
+         </View>
          <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Home')}
@@ -145,7 +128,16 @@ const styles = StyleSheet.create({
       borderRadius: 30,
       borderWidth: 4,
       borderColor: "rgba(129, 90, 159, 1)",
-      marginTop: 15
+      marginTop: 15,
+      justifyContent: 'center',
+      alignItems:"center"
+   },
+   listContainer: {
+      width: 300,
+      height: 60,
+      backgroundColor: "white",
+      padding: 10,
+      borderRadius: 30,
    },
    button: {
       marginTop: 30,

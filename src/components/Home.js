@@ -1,18 +1,16 @@
 // react imports
 import React, { useState, useEffect } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
-import { NavigationContainer, StackActions, useNavigation } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // expo imports
 import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location'
 import { LinearGradient } from 'expo-linear-gradient'
-import * as Font from 'expo-font'
 
 // file imports
 import logo from '../../assets/logo.png'
 import UnicornModel from '../../src/models/unicorn'
+import SightingModel from '../../src/models/sighting'
 import { API_KEY } from '../../utils/weatherKey'
 
 export default function Home({ navigation, route }) {
@@ -21,9 +19,11 @@ export default function Home({ navigation, route }) {
    const [lat, setLat] = useState(null)
    const [lon, setLon] = useState(null)
    const [temp, setTemp] = useState(null)
-   const [wind, setWind] = useState(null)
+   // const [wind, setWind] = useState(null)
    const [unicornId, setUnicornId] = useState(null)
    const [unicorn, setUnicorn] = useState(null)
+   const [allUnicorns, setAllUnicorns]=useState([])
+   const [sightings, setSightings] = useState(null)
 
    // get location coordinates
    const getLocation = async () => {
@@ -46,31 +46,92 @@ export default function Home({ navigation, route }) {
       setTemp(Math.round(json.main.temp))
       // setWind(Math.round(json.wind.speed))
    }
-
+    // // find all unicorns from DB
+    const findAllUnicorns = async () => {
+      const res = await UnicornModel.all()
+      console.log('in find all unicorns',res.unicorns)
+      setUnicorns(res.unicorns)
+   }
+   // get weather data and populate unicorn array
    useEffect(() => {
       if (lat && lon) {
          getWeather();
+         findAllUnicorns()
       }
-      // console.log('wind state:', wind)
       console.log('temp state:', temp)
+      console.log(unicorns)
    }, [lat, lon])
 
+   // // conditional function to pick unicorn based on temp state 
+   // const pickUnicorn = () => {
+      
+   //    if (temp === 54) { 
+   //       setUnicornId(3)
+   //    }
+   //    else if (temp === 56) {
+   //       setUnicornId(22)
+   //    }
+   //    else if (temp === 57) {
+   //       setUnicornId(19)
+   //    }
+   //    else if (temp === 58) {
+   //       setUnicornId(20)
+   //    }
+   //    else if (temp === 59) {
+   //       setUnicornId(27)
+   //    }
+   //    else if (temp === 63) {
+   //       setUnicornId(8)
+   //    }
+   //    else if (temp === 65) {
+   //       setUnicornId(9)
+   //    }
+   //    else if (temp === 67) {
+   //       setUnicornId(10)
+   //    }
+   //    else if (temp === 69) {
+   //       setUnicornId(11)
+   //    }
+   //    else if (temp === 71) {
+   //       setUnicornId(12)
+   //    }
+   //    else if (temp === 73) {
+   //       setUnicornId(13)
+   //    }
+   //    else if (temp === 75) {
+   //       setUnicornId(14)
+   //    }
+   //    else if (temp === 77) {
+   //       setUnicornId(15)
+   //    }
+   //    else if (temp === 79) {
+   //       setUnicornId(16)
+   //    }
+   //    else if (temp === 81) {
+   //       setUnicornId(17)
+   //    }
+   //    else {
+   //       setUnicornId(28)
+   //    }
+      
+   // }
    // // conditional function to set unicornId based on temp state 
    const pickUnicornId = () => {
-      if (temp === 53) {
+      
+      if (temp === 54) { 
          setUnicornId(3)
       }
-      else if (temp === 55) {
-         setUnicornId(4)
+      else if (temp === 56) {
+         setUnicornId(22)
       }
       else if (temp === 57) {
-         setUnicornId(5)
+         setUnicornId(19)
+      }
+      else if (temp === 58) {
+         setUnicornId(20)
       }
       else if (temp === 59) {
-         setUnicornId(6)
-      }
-      else if (temp === 61) {
-         setUnicornId(7)
+         setUnicornId(27)
       }
       else if (temp === 63) {
          setUnicornId(8)
@@ -103,23 +164,23 @@ export default function Home({ navigation, route }) {
          setUnicornId(17)
       }
       else {
-         setUnicornId(17)
+         setUnicornId(28)
       }
+      console.log('in pickUnicornId:',unicornId)
    }
 
    useEffect(() => {
-      // if (wind && temp){
       if (temp) {
          pickUnicornId()
+         // pickUnicorn()
       }
       console.log('unicornId:', unicornId)
-      // }, [wind, temp])
    }, [temp])
 
    //find one unicorn from DB
    const findUnicorn = async (unicornId) => {
       const res = await UnicornModel.show(unicornId)
-      console.log("in findUnicorn", res.unicorn)
+      // console.log("in findUnicorn", res.unicorn)
       setUnicorn(res.unicorn)
    }
 
@@ -131,10 +192,13 @@ export default function Home({ navigation, route }) {
       }
    }, [unicornId])
 
+
+
+
+
    // redirect to unicorn screen
    const goToUnicornScreen = async () => {
-      console.log('in goToUnicornScreen', unicorn)
-      await navigation.navigate('Unicorn', unicorn)
+      await navigation.navigate('Unicorn', unicorn, sightings)
    }
 
    // redirect invoked once unicorn is returned from DB and state is set
@@ -143,6 +207,32 @@ export default function Home({ navigation, route }) {
          goToUnicornScreen()
       }
    }, [unicorn])
+
+   
+   // // // find all sightings from DB
+   // const findAllSightings = async () => {
+   //    const res = await SightingModel.all()
+   //    console.log('in find all sightings',res)
+   //    console.log('in find all sightings2',res.sightings)
+   //    setSightings(res.sightings)
+   // }
+
+   // // redirect to sightings screen. also passes sightings as props
+   // const goToSightingsScreen = async () => {
+   //    if (sightings){
+   //       console.log('in goToSightings from home ', sightings[0])
+   //       await navigation.navigate('Sightings', sightings)
+
+   //    }
+   // }
+   
+   // // redirect invoked once sightings are returned from DB and state is set
+   // useEffect(() => {
+   //    if (sightings){
+   //       goToSightingsScreen()
+   //    }
+   // }, [sightings])
+
 
    return (
       <View style={styles.container}>
@@ -158,8 +248,12 @@ export default function Home({ navigation, route }) {
                style={styles.logo}
             />
          </TouchableOpacity>
+         <Text style={styles.instructions}>
+            Press the logo to search for Unicorns!
+         </Text>
          <TouchableOpacity
             style={styles.button}
+            // onPress={findAllSightings}
             onPress={() => navigation.navigate('Sightings')}
          >
             <Text style={styles.buttonText}>See recent sightings!</Text>

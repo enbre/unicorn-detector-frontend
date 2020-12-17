@@ -31,12 +31,12 @@ export default class UnicornModel {
   //   }).then(res => res.json())
   // }
 
-  // static delete = (sightingId) => {
-  //   return fetch(`${URL}/sightings/${sightingId}`, {
-  //     method: "DELETE",
-  //     credentials: 'include'
-  //   })
-  //     .then(res => res.json())
-  // }
+  static delete = (sightingId) => {
+    return fetch(`${URL}/sightings/${sightingId}`, {
+      method: "DELETE",
+      // credentials: 'include'
+    })
+      .then(res => res.json())
+  }
 
 }
