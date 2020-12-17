@@ -7,23 +7,21 @@ import { LinearGradient } from 'expo-linear-gradient'
 import SightingModel from '../../src/models/sighting'
 
 
-const SingleSighting = () => {
+const SingleSighting = (props) => {
 
    return (
+
       <View style={styles.sightingContainer}>
          <Image
             style={styles.image}
-            source={{uri:'https://static.wikia.nocookie.net/mlp/images/d/d2/UUM2_ID_S9E26.png/revision/latest?cb=20191013154637' }}
-            // source={{ uri: sighting.image }}
+            source={{ uri: props.image }}
          />
          <View style={styles.sightingTextContainer}>
             <Text style={styles.sightingName}>
-               Lemon Zest
-               {/* {sighting.name} */}
+               {props.name}
             </Text>
             <Text style={styles.sightingDate}>
-               12/10/2020
-               {/* {sighting.date} */}
+               was seen on {props.date}
             </Text>
          </View>
       </View>
@@ -36,38 +34,31 @@ export default function Sightings({ navigation, route }) {
    // // find all sightings from DB
    const findAllSightings = async () => {
       const res = await SightingModel.all()
-      console.log('in find all sightings2', res.sightings)
+      console.log('in find all sightings, line 39', res.sightings)
       setSightings(res.sightings)
-      // console.log('sightings in findAllSightings:',sightings)
    }
+
    useEffect(()=>{
       findAllSightings()
-      console.log('sightings useEffect:',sightings)
+      console.log('sightings useEffect, line 45:',sightings)
    },[])
-   console.log('sightings in component:',sightings)
 
+   console.log('sightings in component, line 47:',sightings)
    return (
       <View style={styles.container}>
          <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
          <View style={styles.list}>
             <ScrollView style={styles.listContainer}>
-               <SingleSighting/>
-               <SingleSighting/>
-               <SingleSighting/>
-               <SingleSighting/>
-               <SingleSighting/>
-               <SingleSighting/>
-            
-               {/* {sightings.map(sighting=>{
+               {!sightings ? <Text>""</Text>: sightings.map(sighting=>{
                   return(
                      <SingleSighting
                         key={sighting.id}
                         image={sighting.unicornImg}
                         name={sighting.unicornName}
-                        date={sighting.date}
+                        date={sighting.createdAt.substr(5,5)+"-"+sighting.createdAt.substr(0,2)}
                      />
                   )
-               })} */}
+               })}
             </ScrollView>
          </View>
          <TouchableOpacity
@@ -100,7 +91,6 @@ const styles = StyleSheet.create({
    image: {
       width: 60,
       height: 60,
-      // resizeMode: "contain",
       borderRadius: 10
    },
    sightingName: {
@@ -150,7 +140,6 @@ const styles = StyleSheet.create({
    buttonText: {
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 18,
-      // fontFamily: "ComicNeue"
    },
    backgroundGradient: {
       position: 'absolute',
@@ -159,6 +148,4 @@ const styles = StyleSheet.create({
       top: 0,
       height: 800
    },
-
-
 });

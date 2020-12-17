@@ -19,10 +19,8 @@ export default function Home({ navigation, route }) {
    const [lat, setLat] = useState(null)
    const [lon, setLon] = useState(null)
    const [temp, setTemp] = useState(null)
-   // const [wind, setWind] = useState(null)
    const [unicornId, setUnicornId] = useState(null)
    const [unicorn, setUnicorn] = useState(null)
-   const [allUnicorns, setAllUnicorns]=useState([])
    const [sightings, setSightings] = useState(null)
 
    // get location coordinates
@@ -39,85 +37,20 @@ export default function Home({ navigation, route }) {
    }
    // get weather data
    const getWeather = async () => {
-      console.log("latitude state:", lat)
-      console.log("longitude state:", lon)
       const res = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=imperial`)
       const json = await res.json()
       setTemp(Math.round(json.main.temp))
-      // setWind(Math.round(json.wind.speed))
    }
-    // // find all unicorns from DB
-    const findAllUnicorns = async () => {
-      const res = await UnicornModel.all()
-      console.log('in find all unicorns',res.unicorns)
-      setUnicorns(res.unicorns)
-   }
+
    // get weather data and populate unicorn array
    useEffect(() => {
       if (lat && lon) {
          getWeather();
-         findAllUnicorns()
       }
-      console.log('temp state:', temp)
-      console.log(unicorns)
    }, [lat, lon])
 
-   // // conditional function to pick unicorn based on temp state 
-   // const pickUnicorn = () => {
-      
-   //    if (temp === 54) { 
-   //       setUnicornId(3)
-   //    }
-   //    else if (temp === 56) {
-   //       setUnicornId(22)
-   //    }
-   //    else if (temp === 57) {
-   //       setUnicornId(19)
-   //    }
-   //    else if (temp === 58) {
-   //       setUnicornId(20)
-   //    }
-   //    else if (temp === 59) {
-   //       setUnicornId(27)
-   //    }
-   //    else if (temp === 63) {
-   //       setUnicornId(8)
-   //    }
-   //    else if (temp === 65) {
-   //       setUnicornId(9)
-   //    }
-   //    else if (temp === 67) {
-   //       setUnicornId(10)
-   //    }
-   //    else if (temp === 69) {
-   //       setUnicornId(11)
-   //    }
-   //    else if (temp === 71) {
-   //       setUnicornId(12)
-   //    }
-   //    else if (temp === 73) {
-   //       setUnicornId(13)
-   //    }
-   //    else if (temp === 75) {
-   //       setUnicornId(14)
-   //    }
-   //    else if (temp === 77) {
-   //       setUnicornId(15)
-   //    }
-   //    else if (temp === 79) {
-   //       setUnicornId(16)
-   //    }
-   //    else if (temp === 81) {
-   //       setUnicornId(17)
-   //    }
-   //    else {
-   //       setUnicornId(28)
-   //    }
-      
-   // }
-   // // conditional function to set unicornId based on temp state 
+   // conditional function to set unicornId based on temp state 
    const pickUnicornId = () => {
-      
       if (temp === 54) { 
          setUnicornId(3)
       }
@@ -164,7 +97,7 @@ export default function Home({ navigation, route }) {
          setUnicornId(17)
       }
       else {
-         setUnicornId(28)
+         setUnicornId(31)
       }
       console.log('in pickUnicornId:',unicornId)
    }
@@ -172,33 +105,24 @@ export default function Home({ navigation, route }) {
    useEffect(() => {
       if (temp) {
          pickUnicornId()
-         // pickUnicorn()
       }
-      console.log('unicornId:', unicornId)
    }, [temp])
 
    //find one unicorn from DB
    const findUnicorn = async (unicornId) => {
       const res = await UnicornModel.show(unicornId)
-      // console.log("in findUnicorn", res.unicorn)
       setUnicorn(res.unicorn)
    }
 
    useEffect(() => {
-      console.log('in findUnicorn useEffect outer')
       if (unicornId) {
-         console.log('in findUnicorn useEffect inner')
          findUnicorn(unicornId)
       }
    }, [unicornId])
 
-
-
-
-
    // redirect to unicorn screen
    const goToUnicornScreen = async () => {
-      await navigation.navigate('Unicorn', unicorn, sightings)
+      await navigation.navigate('Unicorn', unicorn)
    }
 
    // redirect invoked once unicorn is returned from DB and state is set
@@ -207,32 +131,6 @@ export default function Home({ navigation, route }) {
          goToUnicornScreen()
       }
    }, [unicorn])
-
-   
-   // // // find all sightings from DB
-   // const findAllSightings = async () => {
-   //    const res = await SightingModel.all()
-   //    console.log('in find all sightings',res)
-   //    console.log('in find all sightings2',res.sightings)
-   //    setSightings(res.sightings)
-   // }
-
-   // // redirect to sightings screen. also passes sightings as props
-   // const goToSightingsScreen = async () => {
-   //    if (sightings){
-   //       console.log('in goToSightings from home ', sightings[0])
-   //       await navigation.navigate('Sightings', sightings)
-
-   //    }
-   // }
-   
-   // // redirect invoked once sightings are returned from DB and state is set
-   // useEffect(() => {
-   //    if (sightings){
-   //       goToSightingsScreen()
-   //    }
-   // }, [sightings])
-
 
    return (
       <View style={styles.container}>
@@ -253,7 +151,6 @@ export default function Home({ navigation, route }) {
          </Text>
          <TouchableOpacity
             style={styles.button}
-            // onPress={findAllSightings}
             onPress={() => navigation.navigate('Sightings')}
          >
             <Text style={styles.buttonText}>See recent sightings!</Text>
@@ -277,7 +174,6 @@ const styles = StyleSheet.create({
    title: {
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 35,
-      // fontFamily: 'Chicle',
       marginHorizontal: 15,
       marginBottom: 30,
       marginTop: -50
@@ -294,12 +190,10 @@ const styles = StyleSheet.create({
       marginTop: 20,
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 18,
-      // fontFamily: "ComicNeue"
    },
    buttonText: {
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 18,
-      // fontFamily: "ComicNeue"
    },
    backgroundGradient: {
       position: 'absolute',
@@ -307,11 +201,5 @@ const styles = StyleSheet.create({
       right: 0,
       top: 0,
       height: 800
-   },
-   thumbnail: {
-      width: 300,
-      height: 300,
-      resizeMode: "contain"
    }
-
 });

@@ -4,7 +4,6 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // expo imports
 import { LinearGradient } from 'expo-linear-gradient'
 // file imports
-// import UnicornModel from '../../src/models/unicorn'
 import SightingModel from '../../src/models/sighting'
 
 
@@ -22,13 +21,10 @@ export default function Unicorn({ navigation, route }) {
          unicornImg: route.params.image,
          unicornName: route.params.name,
       }
-      console.log('new sighting',newSighting)
+      console.log('new sighting', newSighting)
       await SightingModel.create(newSighting)
       await navigation.navigate('Sightings', sightings)
-
    }
-
-
 
    return (
       <View style={styles.container}>
@@ -42,7 +38,8 @@ export default function Unicorn({ navigation, route }) {
                {unicorn.name} was seen nearby!
             </Text>
             <Text style={styles.description}>
-            He loves to eat eggplant and go squaredancing. He is quite shy, but you might find him hiding in the shadows of a tall tree.
+               She has a giant handbag collection and is always trying new recipes. You might track her down hunting for ingredients.
+               {/* He loves to eat eggplant and go squaredancing. He is quite shy, but you might find him hiding in the shadows of a tall tree. */}
             {/* {unicorn.description} */}
             </Text>
          </View>

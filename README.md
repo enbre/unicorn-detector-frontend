@@ -10,7 +10,7 @@
 
 ---
 ## Motivation
-#### During fire season last fall when the air was really bad, we got an air quality detector. It is just a white box with a single green LED on it, and we told our daughter that it was a unicorn detector and that if there were any unicorns nearby, the light would change color. I decided to make a mobile app to continue with that ruse.
+#### During fire season last fall when the air was really bad, we got an air quality detector. It is just a white box with a single green LED on it, and we told our daughter that it was a unicorn detector and that if there were any unicorns nearby, the light would change color. My wife had the idea to make a mobile app to continue with that ruse.
 
 ---
 ## User Stories 
