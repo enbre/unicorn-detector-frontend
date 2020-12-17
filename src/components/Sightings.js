@@ -30,32 +30,29 @@ const SingleSighting = (props) => {
 
 export default function Sightings({ navigation, route }) {
    const [sightings, setSightings] = useState(null)
-   
+
    // // find all sightings from DB
    const findAllSightings = async () => {
       const res = await SightingModel.all()
-      console.log('in find all sightings, line 39', res.sightings)
       setSightings(res.sightings)
    }
 
-   useEffect(()=>{
+   useEffect(() => {
       findAllSightings()
-      console.log('sightings useEffect, line 45:',sightings)
-   },[])
+   }, [])
 
-   console.log('sightings in component, line 47:',sightings)
    return (
       <View style={styles.container}>
          <LinearGradient colors={['transparent', 'white']} style={styles.backgroundGradient} />
          <View style={styles.list}>
             <ScrollView style={styles.listContainer}>
-               {!sightings ? <Text>""</Text>: sightings.map(sighting=>{
-                  return(
+               {!sightings ? <Text>""</Text> : sightings.map(sighting => {
+                  return (
                      <SingleSighting
                         key={sighting.id}
                         image={sighting.unicornImg}
                         name={sighting.unicornName}
-                        date={sighting.createdAt.substr(5,5)+"-"+sighting.createdAt.substr(0,2)}
+                        date={sighting.createdAt.substr(5, 5) + "-" + sighting.createdAt.substr(0, 2)}
                      />
                   )
                })}
@@ -71,10 +68,10 @@ export default function Sightings({ navigation, route }) {
    );
 }
 const styles = StyleSheet.create({
-   
+
    sightingContainer: {
       flex: 1,
-      flexDirection:'row',
+      flexDirection: 'row',
       alignItems: 'flex-start',
       justifyContent: 'center',
       margin: 5,
@@ -83,7 +80,7 @@ const styles = StyleSheet.create({
    },
    sightingTextContainer: {
       flex: 1,
-      flexDirection:'column',
+      flexDirection: 'column',
       marginLeft: 10,
       alignItems: 'flex-start',
       justifyContent: 'center',
@@ -96,8 +93,8 @@ const styles = StyleSheet.create({
    sightingName: {
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 18,
-      fontWeight:"bold",
-      paddingTop:5
+      fontWeight: "bold",
+      paddingTop: 5
    },
    sightingDate: {
       color: 'rgba(129, 90, 159, 1)',
@@ -120,7 +117,7 @@ const styles = StyleSheet.create({
       borderColor: "rgba(129, 90, 159, 1)",
       marginTop: 15,
       justifyContent: 'center',
-      alignItems:"center"
+      alignItems: "center"
    },
    listContainer: {
       width: 300,

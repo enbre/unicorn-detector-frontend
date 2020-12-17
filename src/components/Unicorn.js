@@ -21,7 +21,6 @@ export default function Unicorn({ navigation, route }) {
          unicornImg: route.params.image,
          unicornName: route.params.name,
       }
-      console.log('new sighting', newSighting)
       await SightingModel.create(newSighting)
       await navigation.navigate('Sightings', sightings)
    }
@@ -34,21 +33,21 @@ export default function Unicorn({ navigation, route }) {
             style={styles.image}
          />
          <View style={styles.descriptionContainer}>
-            <Text style={styles.title}>
-               {unicorn.name} was seen nearby!
-            </Text>
+            {unicorn.id === 64 ?
+               <Text style={styles.title}>{unicorn.name} were seen nearby.</Text>
+               : <Text style={styles.title}>{unicorn.name} was seen nearby!</Text>}
             <Text style={styles.description}>
-               She has a giant handbag collection and is always trying new recipes. You might track her down hunting for ingredients.
-               {/* He loves to eat eggplant and go squaredancing. He is quite shy, but you might find him hiding in the shadows of a tall tree. */}
-            {/* {unicorn.description} */}
+               {unicorn.description}
             </Text>
          </View>
-         <TouchableOpacity
-            style={styles.button}
-            onPress={createSighting}
-         >
-            <Text style={styles.buttonText}>Record your sighting!</Text>
-         </TouchableOpacity>
+         {unicorn.id !== 64 ?
+            <TouchableOpacity
+               style={styles.button}
+               onPress={createSighting}
+            >
+               <Text style={styles.buttonText}>Record your sighting!</Text>
+            </TouchableOpacity> : null}
+
          <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Home')}
@@ -67,7 +66,6 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
    },
    descriptionContainer: {
-      // flex: 1,
       width: 325,
       alignItems: 'center',
       justifyContent: 'center',
@@ -75,7 +73,6 @@ const styles = StyleSheet.create({
    title: {
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 24,
-      // fontFamily: 'Chicle',
       marginHorizontal: 15,
       marginBottom: 25,
       marginTop: 0
@@ -83,14 +80,11 @@ const styles = StyleSheet.create({
    description: {
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 20,
-      // fontFamily: 'Chicle',
       marginHorizontal: 15,
       marginBottom: 25,
       marginTop: 0
    },
    image: {
-      // resizeMode: "contain",
-      // marginTop: 10,
       width: 300,
       height: 300,
       backgroundColor: "white",
@@ -113,7 +107,6 @@ const styles = StyleSheet.create({
    buttonText: {
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 18,
-      // fontFamily: "ComicNeue"
    },
    backgroundGradient: {
       position: 'absolute',
@@ -122,6 +115,4 @@ const styles = StyleSheet.create({
       top: 0,
       height: 800
    },
-
-
 });
