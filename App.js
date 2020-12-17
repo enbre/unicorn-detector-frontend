@@ -18,7 +18,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Home" headerMode="none">
         <Stack.Screen name="Home" component={Home}/>
         <Stack.Screen name="Unicorn" component={Unicorn}/>
-        <Stack.Screen name="Sightings" component={Sightings}/>
+        <Stack.Screen name="Sightings" component={Sightings}/> 
       </Stack.Navigator>
     </NavigationContainer>
   );

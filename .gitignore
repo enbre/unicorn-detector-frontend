@@ -13,7 +13,7 @@ web-build/
 .DS_Store
 
 # android studio
-.idea
+.idea/*
 
 # keys
 utils/weatherKey.js

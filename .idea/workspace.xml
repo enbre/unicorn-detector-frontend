@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dbdfb5a-6853-4e00-a470-aa1d43be8146" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/unicorn-detector-frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/unicorn-detector-frontend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Sightings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sightings.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,5 +36,20 @@
       <updated>1607716550774</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="358" y="195" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608194820274">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state x="358" y="195" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1608194820274" />
+    <state x="2089" y="230" width="1226" height="405" key="AVDManager" timestamp="1608227833521">
+      <screen x="1920" y="120" width="1920" height="1057" />
+    </state>
+    <state x="228" y="23" width="1226" height="405" key="AVDManager/0.23.1920.1057@0.23.1920.1057" timestamp="1608196569362" />
+    <state x="2089" y="230" width="1226" height="405" key="AVDManager/1920.120.1920.1057/0.23.1920.1057@0.23.1920.1057" timestamp="1608227833521" />
+    <state x="614" y="301" width="670" height="676" key="search.everywhere.popup" timestamp="1608194598804">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state x="614" y="301" width="670" height="676" key="search.everywhere.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1608194598804" />
   </component>
 </project>

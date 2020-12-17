@@ -58,7 +58,7 @@ export default function Unicorn({ navigation, route }) {
    );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({ 
    container: {
       flex: 1,
       backgroundColor: 'rgb(229,184,244)',
