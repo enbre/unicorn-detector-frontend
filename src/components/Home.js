@@ -1,18 +1,16 @@
 // react imports
 import React, { useState, useEffect } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
-import { NavigationContainer, StackActions, useNavigation } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // expo imports
 import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location'
 import { LinearGradient } from 'expo-linear-gradient'
-import * as Font from 'expo-font'
 
 // file imports
 import logo from '../../assets/logo.png'
 import UnicornModel from '../../src/models/unicorn'
+import SightingModel from '../../src/models/sighting'
 import { API_KEY } from '../../utils/weatherKey'
 
 export default function Home({ navigation, route }) {
@@ -21,9 +19,9 @@ export default function Home({ navigation, route }) {
    const [lat, setLat] = useState(null)
    const [lon, setLon] = useState(null)
    const [temp, setTemp] = useState(null)
-   const [wind, setWind] = useState(null)
    const [unicornId, setUnicornId] = useState(null)
    const [unicorn, setUnicorn] = useState(null)
+   const [sightings, setSightings] = useState(null)
 
    // get location coordinates
    const getLocation = async () => {
@@ -39,38 +37,34 @@ export default function Home({ navigation, route }) {
    }
    // get weather data
    const getWeather = async () => {
-      console.log("latitude state:", lat)
-      console.log("longitude state:", lon)
       const res = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=imperial`)
       const json = await res.json()
       setTemp(Math.round(json.main.temp))
-      // setWind(Math.round(json.wind.speed))
    }
 
+   // get weather data and populate unicorn array
    useEffect(() => {
       if (lat && lon) {
          getWeather();
       }
-      // console.log('wind state:', wind)
-      console.log('temp state:', temp)
    }, [lat, lon])
 
-   // // conditional function to set unicornId based on temp state 
+   // conditional function to set unicornId based on temp state 
    const pickUnicornId = () => {
-      if (temp === 53) {
+      if (temp === 54) { 
          setUnicornId(3)
       }
-      else if (temp === 55) {
-         setUnicornId(4)
+      else if (temp === 56) {
+         setUnicornId(22)
       }
       else if (temp === 57) {
-         setUnicornId(5)
+         setUnicornId(19)
+      }
+      else if (temp === 58) {
+         setUnicornId(20)
       }
       else if (temp === 59) {
-         setUnicornId(6)
-      }
-      else if (temp === 61) {
-         setUnicornId(7)
+         setUnicornId(27)
       }
       else if (temp === 63) {
          setUnicornId(8)
@@ -103,37 +97,31 @@ export default function Home({ navigation, route }) {
          setUnicornId(17)
       }
       else {
-         setUnicornId(17)
+         setUnicornId(31)
       }
+      console.log('in pickUnicornId:',unicornId)
    }
 
    useEffect(() => {
-      // if (wind && temp){
       if (temp) {
          pickUnicornId()
       }
-      console.log('unicornId:', unicornId)
-      // }, [wind, temp])
    }, [temp])
 
    //find one unicorn from DB
    const findUnicorn = async (unicornId) => {
       const res = await UnicornModel.show(unicornId)
-      console.log("in findUnicorn", res.unicorn)
       setUnicorn(res.unicorn)
    }
 
    useEffect(() => {
-      console.log('in findUnicorn useEffect outer')
       if (unicornId) {
-         console.log('in findUnicorn useEffect inner')
          findUnicorn(unicornId)
       }
    }, [unicornId])
 
    // redirect to unicorn screen
    const goToUnicornScreen = async () => {
-      console.log('in goToUnicornScreen', unicorn)
       await navigation.navigate('Unicorn', unicorn)
    }
 
@@ -158,6 +146,9 @@ export default function Home({ navigation, route }) {
                style={styles.logo}
             />
          </TouchableOpacity>
+         <Text style={styles.instructions}>
+            Press the logo to search for Unicorns!
+         </Text>
          <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Sightings')}
@@ -183,7 +174,6 @@ const styles = StyleSheet.create({
    title: {
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 35,
-      // fontFamily: 'Chicle',
       marginHorizontal: 15,
       marginBottom: 30,
       marginTop: -50
@@ -200,12 +190,10 @@ const styles = StyleSheet.create({
       marginTop: 20,
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 18,
-      // fontFamily: "ComicNeue"
    },
    buttonText: {
       color: 'rgba(129, 90, 159, 1)',
       fontSize: 18,
-      // fontFamily: "ComicNeue"
    },
    backgroundGradient: {
       position: 'absolute',
@@ -213,11 +201,5 @@ const styles = StyleSheet.create({
       right: 0,
       top: 0,
       height: 800
-   },
-   thumbnail: {
-      width: 300,
-      height: 300,
-      resizeMode: "contain"
    }
-
 });
