@@ -10,7 +10,7 @@
 
 ---
 ## Motivation
-#### During fire season last fall when the air was really bad, we got an air quality detector. It is just a white box with a single green LED on it, and we told our daughter that it was a unicorn detector and that if there were any unicorns nearby, the light would change color. My wife had the idea to make a mobile app to continue with that ruse.
+#### During fire season last fall when the air was really bad, we got an air quality detector. It is just a white box with a single green LED on it, and we told our daughter that it was a unicorn detector and that if there were any unicorns nearby, the light would change color. My wife had the idea to make a mobile app to continue the fun.
 
 ---
 ## User Stories 
@@ -122,7 +122,7 @@ return (
 
 ---
 ## Credits
-#### My General Assembly instructors, TAs, and class mates were very helpful, as well as numerous video tutorials to better understand React Native and Expo. 
+#### My General Assembly instructors, TAs, and class mates were very helpful, as well as documentation, numerous video tutorials and blog posts to better understand React Native and Expo and my wife for the idea and motivation to finish this app. 
 
 ---
 
